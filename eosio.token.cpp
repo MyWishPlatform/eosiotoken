@@ -124,6 +124,22 @@ void token::burn(account_name owner, eosio::asset value) {
 	sub_balance(owner, value);
 }
 
+void token::revoke(account_name owner, eosio::asset value) {
+        require_auth(owner);
+
+        auto sym = value.symbol.name();
+        stats statstable(this->_self, sym);
+        auto it = statstable.find(sym);
+
+        eosio_assert(it != statstable.end(), "No symbol found");
+
+        statstable.modify(it, owner, [&](auto& s) {
+                s.supply -= value;
+        });
+
+        sub_balance(owner, value);
+}
+
 void token::sub_balance( account_name owner, asset value ) {
    accounts from_acnts( _self, owner );
 
@@ -157,4 +173,4 @@ void token::add_balance( account_name owner, asset value, account_name ram_payer
 
 } /// namespace eosio
 
-EOSIO_ABI( eosio::token, (create)(createlocked)(issue)(transfer)(unlock) )
+EOSIO_ABI( eosio::token, (create)(createlocked)(issue)(transfer)(unlock)(burn)(revoke) )
