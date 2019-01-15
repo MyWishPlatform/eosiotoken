@@ -35,9 +35,9 @@ namespace eosio {
 
          void unlock( symbol_type symbol );
 
-         void burn( account_name owner, eosio::asset value );
+         void burn( account_name owner, asset value );
          
-	 void revoke( account_name owner, eosio::asset value );
+	 void revoke( account_name owner, asset value );
 
          inline asset get_supply( symbol_name sym )const;
          

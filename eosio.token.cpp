@@ -107,7 +107,7 @@ void token::unlock( symbol_type symbol ) {
     });
 }
 
-void token::burn(account_name owner, eosio::asset value) {
+void token::burn(account_name owner, asset value) {
 	require_auth(owner);
 
 	auto sym = value.symbol.name();
@@ -124,7 +124,7 @@ void token::burn(account_name owner, eosio::asset value) {
 	sub_balance(owner, value);
 }
 
-void token::revoke(account_name owner, eosio::asset value) {
+void token::revoke(account_name owner, asset value) {
         require_auth(owner);
 
         auto sym = value.symbol.name();
